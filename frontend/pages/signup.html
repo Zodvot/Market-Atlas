@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Market Atlas grocery price comparison concept. Explore illustrative grocery prices around the world.">
+  <title>Create account | Market Atlas</title>
+  <link rel="stylesheet" href="../css/signup.css">
+  <script src="../js/signup.js" defer></script>
+  <link rel="stylesheet" href="../css/account.css">
+  <script src="../js/account.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <!-- Navigation links connect the eight HTML pages. -->
+  <header><div class="nav"><a class="brand" href="index.html"><span>◈</span> market atlas</a><nav aria-label="Main navigation"><a href="index.html">Home</a><a href="groceries.html">Explore groceries</a><a href="compare.html">Compare prices</a><a href="countries.html">Countries</a><a href="about.html">How it works</a></nav><div class="account"><a href="basket.html">Basket ↗</a><a href="login.html">Log in</a></div></div></header>
+  <main id="main"><section class="login-layout"><div class="login-story"><span class="eyebrow">Your everyday, better understood</span><h1>Good to have<br>you at the table.</h1><p>One place for your groceries, favorite markets, and everyday discoveries.</p><div class="login-art" aria-hidden="true">🍐 🍋 🥑</div><span class="small">A world of groceries. A basket of your own.</span></div><div class="card login-card">
+  <h2>Create your account</h2>
+  <p>Save your place at the table. Start with your email and a password.</p>
+  <form id="signup-form">
+    <label for="username">Username</label>
+    <input id="username" name="username" autocomplete="nickname" required minlength="3" maxlength="30" pattern="[A-Za-z0-9_]{3,30}" aria-describedby="username-help">
+    <p id="username-help" class="small">3–30 letters, numbers, or underscores.</p>
+    <label for="gender">Gender</label>
+    <select id="gender" name="gender" required><option value="">Choose an option</option><option value="female">Female</option><option value="male">Male</option><option value="nonbinary">Nonbinary</option><option value="other">Other</option><option value="prefer_not_to_say">Prefer not to say</option></select>
+    <label for="dateOfBirth">Date of birth</label>
+    <input id="dateOfBirth" name="dateOfBirth" type="date" min="1900-01-01" required>
+    <label for="profilePicture">Profile picture (optional)</label>
+    <input id="profilePicture" name="profilePicture" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="picture-help">
+    <p id="picture-help" class="small">JPEG, PNG, or WebP. Maximum 2 MB and 16 megapixels. An initial avatar appears if you skip this.</p>
+    <img id="picture-preview" alt="Profile picture preview" width="80" height="80" hidden>
+    <label for="email">Email address</label>
+    <input id="email" name="email" type="email" autocomplete="username" maxlength="254" required placeholder="you@example.com">
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required aria-describedby="password-help">
+    <p id="password-help" class="small">Use 12–128 characters. A memorable passphrase works well.</p>
+    <button class="btn" type="submit">Create account</button>
+  </form>
+  <p id="form-message" role="status" aria-live="polite"></p>
+  <div id="signed-in" hidden><p id="account-email"></p><a href="groceries.html">Explore groceries →</a><button class="btn" id="logout-button" type="button">Log out</button></div>
+  <p><a href="login.html">Already have an account? Log in</a></p>
+</div></section></main>
+  <footer><div><strong>◈ market atlas</strong> &nbsp; A little perspective for your everyday basket.</div><div>HTML &amp; CSS concept <a href="about.html">About the project</a></div></footer>
+</body>
+</html>

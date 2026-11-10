@@ -1,0 +1,8 @@
+.account-badge { display:flex; align-items:center; gap:10px; max-width:290px; }
+.account-avatar { width:42px; height:42px; flex-shrink:0; border-radius:50%; object-fit:cover; display:grid; place-items:center; background:#d6ed91; color:#234d38; font-size:20px; font-weight:700; }
+.account-badge strong { display:block; font-size:12px; overflow-wrap:anywhere; }
+.account-badge small { display:block; font-size:11px; color:#718075; }
+.login-card select { width:100%; padding:13px; border:1px solid #e1e6dc; border-radius:8px; background:white; font:inherit; }
+#picture-preview { border-radius:50%; object-fit:cover; margin-top:12px; }
+@media (min-width:951px) { header .nav { flex-wrap:wrap; } header nav { flex-wrap:wrap; } header .account { margin-left:auto; } }
+@media (max-width:600px) { header .account { width:100%; justify-content:space-between; } }
