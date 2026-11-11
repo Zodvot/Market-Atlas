@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const PgSession = require('connect-pg-simple')(session);
 const { rateLimit } = require('express-rate-limit');
 const { Pool } = require('pg');
 const { randomBytes } = require('node:crypto');
@@ -10,7 +11,12 @@ const { login } = require('./login');
 // Load local database settings if you have created backend/.env.
 const envPath = path.join(__dirname, '.env');
 if (require('node:fs').existsSync(envPath)) process.loadEnvFile(envPath);
-const database = new Pool({
+const production = process.env.NODE_ENV === 'production';
+if (production && !process.env.SESSION_SECRET) throw new Error('SESSION_SECRET is required in production.');
+const database = new Pool(process.env.DATABASE_URL ? {
+    connectionString: process.env.DATABASE_URL,
+    connectionTimeoutMillis: 10000,
+} : {
     host: process.env.PGHOST || 'localhost',
     port: Number(process.env.PGPORT || 5432),
     database: process.env.PGDATABASE || 'market_atlas',
@@ -21,13 +27,15 @@ const database = new Pool({
 database.on('error', () => console.error('The database connection was interrupted.'));
 const app = express();
 app.disable('x-powered-by');
+if (production) app.set('trust proxy', 1);
 app.use(express.json({ limit: '3mb' }));
-// This local learning server keeps sessions in memory. Restarting logs users out.
+// Hosted sessions persist in PostgreSQL across restarts.
 app.use(session({
-    secret: randomBytes(32).toString('hex'),
+    store: production ? new PgSession({ pool: database, createTableIfMissing: true }) : undefined,
+    secret: process.env.SESSION_SECRET || randomBytes(32).toString('hex'),
     resave: false,
     saveUninitialized: false,
-    cookie: { httpOnly: true, sameSite: 'strict', maxAge: 3600000 },
+    cookie: { httpOnly: true, secure: production, sameSite: 'lax', maxAge: 3600000 },
 }));
 app.get('/api/health', async (request, response) => {
     try {
@@ -130,4 +138,5 @@ app.use((error, request, response, next) => {
     if (error.type === 'entity.too.large') return response.status(413).json({ message: 'Request is too large.' });
     response.status(503).json({ message: 'Account service unavailable. Check database setup.' });
 });
-app.listen(3000, '127.0.0.1', () => console.log('Market Atlas running at http://127.0.0.1:3000'));
+const port = Number(process.env.PORT || 3000);
+app.listen(port, production ? '0.0.0.0' : '127.0.0.1', () => console.log(`Market Atlas listening on port ${port}`));
